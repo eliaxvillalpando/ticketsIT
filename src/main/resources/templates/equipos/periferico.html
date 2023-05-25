@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+        
+        <title>Reportar equipo</title>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <div th:replace="fragmentos :: boostrapYJquery"></div>
+        
+    </head>
+    <body>
+
+        <!-- SECCIÓN TH REPLACE  -->
+        <div th:replace="fragmentos :: barraNavegacion"></div>
+
+        <div class="container-fluid py-5">
+            <h1 class="text-center">Perifericos</h1>
+        </div>
+        
+        <div class="col text-center">
+            <a  th:href="@{/agregarPeriferico}">
+                <label class="">Agregar periferico</label>  
+            </a>
+            
+             <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Tipo</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Modelo</th> 
+                <th scope="col">Foto</th> 
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="periferico : ${perifericos}">
+                
+                <th scope="row">[[${periferico.tipoPeriferico}]]</th>
+                <td th:each="usuarioPeriferico : ${periferico.usuario}" th:text="${usuarioPeriferico}"></td>
+                <td>[[${periferico.marca}]]</td>
+                <td>[[${periferico.modelo}]]</td>
+                <td >[[${periferico.foto1}]] </td>
+                <td><img th:src="@{${periferico.PhotosImagePathFoto1}}"></td>
+                
+                
+                
+                
+                
+            </tr>
+        </tbody>
+    </table>
+            
+        </div>
+        
+        
+          <div th:if="${mensaje != null}" class="alert alert-success text-center">
+        [[${mensaje}]]
+    </div>	
+        
+        
+        
+        <footer>
+            <div th:replace="fragmentos :: footerTickets"></div>
+        </footer>
+        
+
+    </body>
+</html>

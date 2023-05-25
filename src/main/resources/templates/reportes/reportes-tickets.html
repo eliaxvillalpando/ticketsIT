@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+        
+        <title>Tickets area de sistemas</title>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <div th:replace="fragmentos :: boostrapYJquery"></div>
+        <link rel="stylesheet" type="text/css" th:href="@{css/estilosTabla.css}"/>
+        
+    </head>
+    
+    
+    
+    <body>
+
+        <!-- SECCIÓN TH REPLACE  -->
+        <div th:replace="fragmentos :: barraNavegacion"></div>
+
+        
+        <h1 class="text-center">Tickets</h1>
+
+        <div class="container-fluid text-center py-5">
+        <form th:action="@{/tickets-por-fecha}" method="post">
+            
+        <label>Desde:</label><input type="date" name="desde" id="desde" required/>
+            <label>Hasta:</label><input type="date" name="hasta" id="desde" required/>
+            <input type="submit" value="Traer datos" />
+            
+        </form>
+        </div>
+        
+                <div class="container-fluid text-center py-5">
+        <form th:action="@{/tickets-por-area}" method="post">
+            
+        <label>Desde:</label><input type="date" name="desde" id="desde" required/>
+            <label>Hasta:</label><input type="date" name="hasta" id="desde" required/>
+            <input type="submit" value="Traer datos" />
+            
+        </form>
+        </div>
+        
+        <div>
+            [[${date1}]]
+            [[${date2}]]
+        </div>
+
+        <div class="col">
+            <table class="table table-hover" style=" border-collapse: collapse; border-spacing: 0;width: 100%;">
+                
+                
+                <thead>
+            <tr>
+                <th scope="col">#Id</th>
+                <th scope="col">Usuario(Cliente)</th>
+                <th scope="col">Area</th>
+                <th scope="col">Solicitud</th>
+                <th scope="col">Estatus</th>
+                <th scope="col">Medio de comunicación</th>
+                <th scope="col">Observaciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr th:each="ticket : ${ticketsReporte}">
+                
+                <td data-label="Id" scope="row">[[${ticket.id}]]</td>
+                <td data-label="Usuario">[[${ticket.cliente}]]</td>
+                <td data-label="Area" scope="row">[[${ticket.areaCliente}]]</td>
+                <td data-label="Solicitud" scope="row" >[[${ticket.solicitud}]]</td>
+                <td data-label="Estatus" scope="row">[[${ticket.estatus}]]</td>
+                <td data-label="Counicación" scope="row">[[${ticket.medioComunicacion}]]</td>
+                <td data-label="Observaciones" scope="row">[[${ticket.observaciones}]]</td>    
+
+            </tr>
+        </tbody>
+        
+        
+    </table>
+            
+            </div>
+
+    <div th:if="${mensaje != null}" class="alert alert-danger text-center" >
+        [[${mensaje}]]
+    </div>
+        
+        
+        
+
+        
+        <footer>
+            <div th:replace="fragmentos :: footerTickets"></div>
+        </footer>
+        
+
+    </body>
+</html>

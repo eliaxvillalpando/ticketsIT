@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+        
+        <title>Reportar equipo</title>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <div th:replace="fragmentos :: boostrapYJquery"></div>
+        
+    </head>
+    <body>
+
+        <!-- SECCIÓN TH REPLACE  -->
+        <div th:replace="fragmentos :: barraNavegacion"></div>
+
+        <div class="container-fluid py-5">
+            <h1 class="text-center">Agregar Periferico</h1>
+        </div>
+        
+        
+    <form th:action="@{/crearPeriferico}" method="post" style="max-width: 500px; margin: 0 auto" th:object="${periferico}" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}" />
+        <div class="border border-secondary rounded p-3">
+            
+            
+             <div class="form-group row py-3">
+                <label>Tipo</label>
+                <select required th:field="*{tipoPeriferico}">
+                    <option value="Mouse">
+                        Mouse
+                    </option>
+                    <option value="Teclado">
+                       Teclado
+                    </option>
+                    <option value="Teléfono">
+                        Teléfono
+                    </option>
+                    <option value="USB">
+                        USB
+                    </option>
+                    <option value="Monitor">
+                       Monitor
+                    </option>
+                </select>
+            </div>
+
+
+            <div class="form-group row py-3">
+                <label>Marca:</label>
+                <select  required th:field="*{marca}">
+                    <option th:each="marca : ${T(com.iudc.entidades.Marcas).values()}" 
+                            th:value="${marca.displayValue}" th:text="${marca.displayValue}"></option>
+                </select>
+            </div>
+            
+                   <div class="form-group row py-3">
+                <label class="col-sm-4 col-form-label">Modelo:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" th:field="*{modelo}" required minlength="4" maxlength="45"  />
+                </div>
+            </div>
+
+            
+            <div class="form-group row py-3">
+                <label>Area:</label>
+                <select required th:field="*{areaPeriferico}">
+                    <option th:each="area : ${T(com.iudc.entidades.Area).values()}" 
+                            th:value="${area.displayValue}" th:text="${area.displayValue}"></option>
+                </select>
+            </div>
+            
+            <div class="form-group row py-3">
+                <label>Usuario(s)</label>
+                
+                            <select class="form-control" required th:field="*{usuario}" multiple>
+                                
+                                <option
+                                    th:each="cliente : ${clientes}"
+                                    th:value="${cliente.nombre}"
+                                    th:text="${cliente.nombre}">
+                                </option>                          
+                            </select>
+                
+            </div>
+            
+   
+            
+
+            <div>
+                
+                <div>
+                <label>Foto: </label>
+                <input type="file" name="foto1" accept="image/png, image/jpeg" />
+                </div>
+                <div>
+                <label>Foto (2): </label>
+                <input type="file" name="foto2" accept="image/png, image/jpeg" />
+                </div>
+                <div>
+                <label>Foto (3): </label>
+                <input type="file" name="foto3" accept="image/png, image/jpeg" />
+                </div>
+                <div>
+                <label>Foto (4): </label>
+                <input type="file" name="foto4" accept="image/png, image/jpeg" />
+                </div>
+                                
+            </div>
+
+            
+            
+            
+            
+            
+            
+            
+            
+            <!--
+            <div class="form-group row py-3">
+                <label class="col-sm-4 col-form-label">Modelo:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" th:field="*{nombre}" required minlength="4" maxlength="45"  />
+                </div>
+            </div>
+            -->
+
+
+            <div class="text-center">
+                <input type="submit" value="Guardar" class="btn btn-primary m-3" />
+                <input type="reset" value="Cancelar" class="btn btn-secondary" onclick="history.go(-1);" />
+            </div>
+        </div>
+    </form>
+      
+        
+    
+        
+        
+        <footer>
+            <div th:replace="fragmentos :: footerTickets"></div>
+        </footer>
+
+        
+    </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+
+        <title>Tickets area de sistemas</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragmentos :: boostrapYJquery"></div>
+
+</head>
+<body>
+
+    <!-- SECCIÓN TH REPLACE  -->
+    <div th:replace="fragmentos :: barraNavegacion"></div>
+
+
+    <h1 class="text-center p-3">Reporteador</h1>
+
+
+    <div class="row">
+        <div class="col">
+
+            <div class="container-fluid text-center py-2">
+                <h3 class="text-center">Generar KPI entre fechas</h3>
+                <form th:action="@{/tickets-por-area}" method="post">
+
+                    <label>Desde:</label><input type="date" name="desde" id="desde" required/>
+                    <label>Hasta:</label><input type="date" name="hasta" id="desde" required/>
+                    <input type="submit" value="Traer datos"/>
+
+                </form>
+                
+                <form th:action="@{/kpi/export/excel}" method="post" class="py-4">
+
+                    <label>Desde:</label><input type="date" name="desde" id="desde" required/>
+                    <label>Hasta:</label><input type="date" name="hasta" id="desde" required/>
+                    <i class="fas fa-solid fa-file-excel"><input type="submit" value="Generar excel"/> </i> 
+                        
+                </form>
+
+
+                
+            </div>
+
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+    </div>
+
+
+
+
+
+
+    <footer>
+        <div th:replace="fragmentos :: footerTickets"></div>
+    </footer>
+
+
+</body>
+</html>

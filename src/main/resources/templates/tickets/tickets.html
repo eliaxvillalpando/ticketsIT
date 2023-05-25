@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+        
+        <title>Tickets area de sistemas</title>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <div th:replace="fragmentos :: boostrapYJquery"></div>
+        <link rel="stylesheet" type="text/css" th:href="@{css/estilosTabla.css}"/>
+        
+    </head>
+    
+    
+    
+    <body>
+
+        <!-- SECCIÓN TH REPLACE  -->
+        <div th:replace="fragmentos :: barraNavegacion"></div>
+
+        
+        <h1 class="text-center">Tickets</h1>
+
+<!--
+<span>[[${#request.remoteUser}]]</span>
+<span th:if="${#request.remoteUser == 'Santiago'}">santi</span>
+<span th:if="${#request.remoteUser != 'Santiago'}">nada</span>
+-->
+
+
+
+    <div class="row">
+        <div class="col"></div>
+        <div class="col text-center">
+            <a th:href="@{/tickets/nuevo}" class="fas fa-clipboard-list fa-2x mr-2 py-3" style="color: #169FDB">Nuevo ticket</a>
+        </div>
+        <div class="col"></div>
+    </div>
+
+
+        <div class="col">
+            <table class="table table-hover" style=" border-collapse: collapse; border-spacing: 0;width: 100%;">
+        <thead>
+            <tr>
+                <th scope="col">#Id</th>
+                <th scope="col">Usuario(Cliente)</th>
+                <th scope="col">Area</th>
+                <th scope="col">Solicitud</th>
+                <th scope="col">Estatus</th>
+                <th scope="col">Medio de comunicación</th>
+                <th scope="col">Observaciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr th:each="ticket : ${tickets}">
+                
+                <td data-label="Id" scope="row">[[${ticket.id}]]</td>
+                <td data-label="Usuario">[[${ticket.cliente}]]</td>
+                <td data-label="Area" scope="row">[[${ticket.areaCliente}]]</td>
+                <td data-label="Solicitud" scope="row" >[[${ticket.solicitud}]]</td>
+                <td data-label="Estatus" scope="row">[[${ticket.estatus}]]</td>
+                <td data-label="Counicación" scope="row">[[${ticket.medioComunicacion}]]</td>
+                <td data-label="Observaciones" scope="row">[[${ticket.observaciones}]]</td>    
+                 <td data-label="Editar">
+                    <a class="fas fa-edit fa-1x icon-green" th:href="@{'/tickets/editar/' + ${ticket.id}}">Editar</a>
+                </td>
+               
+                <div th:if="${ticket.estatus != 'Cerrado'}" >
+                <td data-label="Cerrar">           
+                    <a class="fas fa-edit fa-1x icon-green" th:href="@{'/tickets/cerrar-ticket/' + ${ticket.id}}">Cerrar Ticket</a>
+                </td>
+                </div>
+
+            </tr>
+        </tbody>
+    </table>
+            
+            </div>
+
+    <div th:if="${mensaje != null}" class="alert alert-success text-center">
+        [[${mensaje}]]
+    </div>	
+        
+        
+        
+
+        
+        <footer>
+            <div th:replace="fragmentos :: footerTickets"></div>
+        </footer>
+        
+
+    </body>
+</html>

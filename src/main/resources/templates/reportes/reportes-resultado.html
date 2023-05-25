@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+
+        <title>Tickets area de sistemas</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragmentos :: boostrapYJquery"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{css/estilosTabla.css}"/>
+    
+
+    <style type="text/css" media="print">
+        /* Estilos para mantener el formato de las tablas para imprimir */
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 2px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SECCIÓN TH REPLACE  -->
+    <div th:replace="fragmentos :: barraNavegacion"></div>
+
+
+    <h1 class="text-center">KPI's entre fechas</h1>
+
+    <p class="p-3" style="color: #771131">Desde: [[${desde}]] - Hasta: [[${hasta}]]</p>
+
+    
+    <div class="container-fluid" id="areaImpresion" >
+
+
+        <div class="row">
+            <div class="col">
+
+                <h2>Información general</h2>
+                <div class="col">
+
+                    <table class="table table-hover" style=" border-collapse: collapse; border-spacing: 0;width: 100%;">
+                        <thead>
+                        </thead>
+                        <tbody th:each="ticket : ${ticketsTotales}">
+                            <tr>
+                                <td data-label="Area" scope="row">Total</td>
+                                <td data-label="Area" scope="row">[[${ticket.getCntTotal}]]</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-label="Area" scope="row">Recuentio de días</td>
+                                <td data-label="Dias" scope="row">[[${diasTrabajados}]]</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Area" scope="row">Acumulado horas</td>
+                                <td data-label="Dias" scope="row">[[${horasTotales}]]</td>  
+                            </tr>
+                        </tbody>
+                    </table>       
+
+                </div>
+
+
+
+            </div>
+
+            <div class="col">
+                <h2>Recuento tickets por area</h2>
+                <table class="table table-hover" style=" border-collapse: collapse; border-spacing: 0;width: 100%;">
+                    <thead>
+                        <tr>
+                            <th scope="col">Area</th>
+                            <th scope="col">Recuento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ticket : ${ticketsReporte}">
+                            <td data-label="Area" scope="row">[[${ticket.getAnswer}]]</td>
+                            <td data-label="Area" scope="row">[[${ticket.getCnt}]]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col">
+
+                <h2>Recuento tickets por estatus</h2>
+                <table class="table table-hover" style=" border-collapse: collapse; border-spacing: 0;width: 100%;">
+                    <thead>
+                        <tr>
+                            <th scope="col">Area</th>
+                            <th scope="col">Recuento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ticket : ${ticketsPorEstatus}">
+                            <td data-label="Estatus" scope="row">[[${ticket.getEstatus}]]</td>
+                            <td data-label="Recuento" scope="row">[[${ticket.getCnt}]]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h2>% por estatus</h2>
+                <table class="table table-hover" style=" border-collapse: collapse; border-spacing: 0;width: 100%;">
+                    <thead>
+                        <tr>
+                            <th scope="col">Area</th>
+                            <th scope="col">Porcentaje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ticket : ${porcentajeTicketsPorEstatus}">
+                            <td data-label="Estatus" scope="row">[[${ticket.getEstatus}]]</td>
+                            <td data-label="Porcentaje" scope="row">[[${ticket.getCnt}]]%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col">
+                <h2>Acumulado de minutos por area</h2>
+                <table class="table table-hover" style=" border-collapse: collapse; border-spacing: 0;width: 100%;">
+                    <thead>
+                        <tr>
+                            <th scope="col">Area</th>
+                            <th scope="col">Acumulado horas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ticket : ${sumaTicketsArea}">
+
+                            <td data-label="Area" scope="row">[[${ticket.getAnswer}]]</td>
+                            <td data-label="Porcentaje" scope="row">[[${ticket.getCnt}]] minutos</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col">
+                <h2>Promedio tiempo ticket por area</h2>
+                <table class="table table-hover" style=" border-collapse: collapse; border-spacing: 0;width: 100%;">
+                    <thead>
+                        <tr>
+                            <th scope="col">Area</th>
+                            <th scope="col">Promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ticket : ${promedioTiempoTicketsArea}">
+
+                            <td data-label="Area" scope="row">[[${ticket.getAnswer}]]</td>
+                            <td data-label="Porcentaje" scope="row">[[${ticket.getCnt}]] minutos</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button onclick="printDiv('areaImpresion')">Imprimir</button>
+        <!-- FIN DEL CONTAINER-FLUID   -->
+    </div>
+    
+
+    <div th:if="${mensaje != null}" class="alert alert-danger text-center" >
+        [[${mensaje}]]
+    </div>
+
+
+
+
+
+    <footer>
+        <div th:replace="fragmentos :: footerTickets"></div>
+    </footer>
+
+    
+    <script>
+
+
+        function printDiv(divName) {
+            window.print();
+        }
+
+
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+
+        <title>Tickets area de sistemas</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragmentos :: boostrapYJquery"></div>
+
+
+</head>
+<body>
+
+    <!-- SECCIÓN TH REPLACE  -->
+    <div th:replace="fragmentos :: barraNavegacion"></div>
+
+
+    <h1> Formulario ticket | [[${tituloPagina}]]</h1>
+
+    <form th:action="@{/tickets/guardar}" method="post" style="max-width: 500px; margin: 0 auto" th:object="${ticket}">
+
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="border border-secondary rounded p-3">
+
+
+            <div class="form-group row py-3">
+
+                <label>Usuario</label>
+
+                <select class="form-control" th:field="*{cliente}" name="cliente" required>                    
+                    <th:block   th:each="cliente : ${clientes}">
+                        <option th:value="${cliente.nombre}" th:text="${cliente.nombre}"></option>
+                    </th:block>
+                </select>
+
+            </div>
+
+            <div class="form-group row py-3">
+                <label>Motivo</label>
+                <select name="solicitud" required th:field="*{solicitud}">
+                    <option th:each="sol : ${T(com.iudc.entidades.Solicitud).values()}" 
+                            th:value="${sol.displayValue}" th:text="${sol.displayValue}"></option>
+                </select>
+            </div>
+
+            <div class="form-group row py-3">
+                <label>Estatus</label>
+                <select name="solicitud" required th:field="*{estatus}">
+                    <option th:each="estatus : ${T(com.iudc.entidades.EstatusTicket).values()}" 
+                            th:value="${estatus.displayValue}" th:text="${estatus.displayValue}"></option>
+                </select>
+            </div> 
+
+            <div class="form-group row py-3">
+                <label>Medio de comunicación solicitado</label>
+                <select name="medioComunicacion" required th:field="*{medioComunicacion}">
+                    <option th:each="motivo : ${T(com.iudc.entidades.Comunicacion).values()}" 
+                            th:value="${motivo.displayValue}" th:text="${motivo.displayValue}"></option>
+                </select>
+
+            </div> 
+
+
+            <div class="form-group row py-3">
+                <label>Hora solicitada</label>
+                <input type="time" name="hora_inicio"
+                       required th:field="*{horaInicio}">
+
+            </div>
+
+            <div class="form-group row py-3">
+                <label>Hora finalizada</label>
+                <input type="time" name="hora_final"
+                       required th:field="*{horaFinal}">
+
+            </div>
+
+
+
+            <div class="form-group row py-3">
+                <label>Fecha de solicitud del ticket</label>
+                <input type="date" name="fecha_solicitud"
+                       required th:field="*{fecha_solicitud}">
+
+            </div>
+
+            <div class="form-group row py-3">
+                <label>Fecha de cierre del ticket</label>
+                <input type="date" name="fecha_cierre"
+                       required th:field="*{fecha_cierre}">
+
+            </div>
+
+
+            <div class="form-group row py-3">
+                <label>Observaciones</label>
+                <textarea name="comentarios" rows="5" cols="10" th:field="*{observaciones}" ></textarea> 
+            </div>
+
+
+            <div class="text-center">
+                <input type="submit" value="Guardar" class="btn btn-primary m-3" />
+                <input type="reset" value="Cancelar" class="btn btn-secondary" onclick="history.go(-1);"/>
+            </div>
+        </div>
+    </form>
+
+
+    <footer>
+        <div th:replace="fragmentos :: footerTickets"></div>
+    </footer>
+
+
+</body>
+</html>
